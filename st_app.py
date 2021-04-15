@@ -77,8 +77,32 @@ df_france = df[df['maille_nom'] == 'France']
 'Nouvelles hospitalisations', df_france.tail(1)['nouvelles_hospitalisations'][0]
 'Nouvelles réanimations', df_france.tail(1)['nouvelles_reanimations'][0]
 
+"""
+#### Tests positifs par 'Tranche d'âge'
+##### (National)
+"""
+
+#chargement des données
+url = 'https://www.data.gouv.fr/fr/datasets/r/19a91d64-3cd3-42fc-9943-d635491a4d76'
+df_P = pd.read_csv(url, sep=";", index_col='jour')
+
+# nettoyage des données
+df_P = df_P.rename(columns={'cl_age90':'cl_age'})
+df_P.cl_age = df_P.cl_age.astype('int')
+df_P.dep = df_P.dep.astype('str')
+df_P = df_P[(df_P.P == 1) & (df_P.cl_age > 0)]
+
+# graph
+'Échantillon de Tests positifs analysés : ',len(df_P)
+st.bar_chart(data=df_P['cl_age'].value_counts())
+
+"""
+#### France:Nouvelles hospitalisations
+##### (National)
+"""
+
 fig1= px.scatter_mapbox(df_depts, lat="lat", lon="lon", size="nouvelles_hospitalisations", hover_name="maille_nom", 
-					zoom=4, center={'lat':48.862725,'lon':2.287592}, title="France:Nouvelles hospitalisations / "+str(date.today()), height=800,
+					zoom=4, center={'lat':48.862725,'lon':2.287592}, height=800,
 					mapbox_style="open-street-map")
 
 st.plotly_chart(fig1)
