@@ -1,5 +1,4 @@
-requests==2.22.0
-numpy==1.20.1
+streamlit==0.80.0
 pandas==1.2.2
 plotly==4.14.3
-bokeh==2.2.3
+numpy==1.20.1
